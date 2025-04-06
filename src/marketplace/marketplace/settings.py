@@ -25,12 +25,13 @@ SECRET_KEY = 'django-insecure-4zl@4g8*tq7g&je=$-u8f)v074_**kkbx@shgggdalr#gv7d$s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['129.74.152.125', '127.0.0.1', 'localhost']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'campusmart.apps.CampusmartConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
