@@ -6,5 +6,6 @@ app_name = 'campusmart'
 urlpatterns = [
     path('', views.home, name='home'),
     path('login/', views.login_view, name='login'),
-    path('logout/', views.logout, name='logout')
+    path('logout/', views.logout, name='logout'),
+    path('create_user/', views.create_user_view, name='create_user')
 ]
