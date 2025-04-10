@@ -184,7 +184,7 @@
         <div class="bg-primary text-white rounded-3 p-5 text-center">
             <h2 class="display-6 mb-4">Ready to sell your items?</h2>
             <p class="lead mb-4">Join thousands of students who are already buying and selling on CampusMart.</p>
-            {% if user.is_authenticated %}
+            {% if request.session.user %}
                 <a href="#" class="btn btn-light btn-lg">Post a Listing</a>
             {% else %}
                 <a href="{% url 'campusmart:login' %}" class="btn btn-light btn-lg">Get Started</a>
