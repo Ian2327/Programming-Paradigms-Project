@@ -1,5 +1,4 @@
 from django.db import models
-from django import forms
 
 # Create your models here.
 
@@ -13,13 +12,25 @@ class User(models.Model):
     def __str__(self):
         return self.name
 
-class LoginForm(forms.Form):
-    username = forms.CharField(max_length=200)
-    password = forms.CharField(widget=forms.PasswordInput)
 
-class CreateUserForm(forms.Form):
-    name = forms.CharField(max_length=200)
-    username = forms.CharField(max_length=200)
-    email = forms.EmailField(max_length=200)
-    password = forms.CharField(widget=forms.PasswordInput)
-    password_auth = forms.CharField(widget=forms.PasswordInput)
+class Listing(models.Model):
+    conditionChoices = {
+        "N" : "New",
+        "L" : "Like New",
+        "V" : "Very Good",
+        "G" : "Good",
+        "A" : "Acceptable",
+        "F" : "Fair",
+        "P" : "Poor"
+    }
+
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    price = models.DecimalField(decimal_places=2, max_digits=9)
+    condition = models.CharField(choices=conditionChoices, max_length=1)
+    available_status = models.BooleanField(default=True)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Image(models.Model):
+    photo = models.ImageField(upload_to='')
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)

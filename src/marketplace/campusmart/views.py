@@ -6,11 +6,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
 from django.contrib import messages
-from .models import User
+from .models import User, Listing
 
 
 # Create your views here.
-from .models import LoginForm, CreateUserForm
+from .forms import LoginForm, CreateUserForm, CreateListingForm, ListingImageForm
 
 # Create your views here.
 def login_view(request):
@@ -78,3 +78,22 @@ def logout(request):
     # remove the logged-in user information
     auth_logout(request)
     return redirect('campusmart:home') 
+
+def create_listing(request):
+    return redirect('campusmart:home')
+    parentForm = CreateListingForm(request.POST or None)
+    factoryForm = ListingImageForm(request.POST or None, instance=Listing())
+    error_messages = []
+
+
+    if request.method == 'POST':
+        if parentForm.is_valid():
+            title = parentForm.cleaned_data['title']
+            if len(title) <= 0:
+                error_messages.append("Title cannot be empty")
+            description = parentForm.cleaned_data['description']
+            if len(description) <= 0:
+                error_messages.append("Description cannot be empty")
+
+        return render(request, 'campusmart/create_listing.html', {'parentForm': parentForm, 'factoryForm': factoryForm, 'error_messages': error_messages})
+
