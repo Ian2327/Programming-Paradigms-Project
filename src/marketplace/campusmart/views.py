@@ -21,11 +21,12 @@ def login_view(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
+            user = User.objects.filter(username=username)
 
-            if user is not None:
-                login(request, user)
-                return redirect('campusmart:home')
+            if len(user) > 0 and check_password(password, user[0].password):
+                # create a new session
+                request.session["user"] = username
+                return HttpResponseRedirect(reverse('campusmart:home'))
             else:
                 error_message = "The username/password combination does not match our records."
 

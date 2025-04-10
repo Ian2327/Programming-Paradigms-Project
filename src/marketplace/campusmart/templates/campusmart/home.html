@@ -58,11 +58,11 @@
                         <a class="nav-link" href="#">About</a>
                     </li>
                 </ul>
-                <div class="d-flex">
-                    {% if user.is_authenticated %}
+                <div class="d-flex" style="margin-right:3%;">
+                    {% if request.session.user %}
                         <div class="dropdown">
                             <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
-                                <i class="bi bi-person-fill"></i> {{ user.username }}
+                                <i class="bi bi-person-fill"></i> {{ request.session.user }}
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">My Profile</a></li>
