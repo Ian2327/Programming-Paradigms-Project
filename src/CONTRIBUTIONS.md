@@ -1,0 +1,22 @@
+Project contributors (sorted alphabetically)
+============================================
+
+* **[Hayden Slade](https://github.com/hayden-slade)**
+
+  * Feature 1.1: Created the form using Django's Form model for registering a new custom User object
+
+
+* **[Ian Setia](https://github.com/Ian2327)**
+
+  * Feature 1.2: Created login form using Django's Form model
+  * Feature 1.3: Added logout feature
+  * Home page: Created template for home page with links to login, listing products, and searching for products
+
+* **[Jack Blake](https://github.com/halftimejack)**
+
+  * Feature 2.1: 
+  * Phase 1 Report: Documented all implemented features and technologies used 
+  
+* **[Wesley Omerso](https://github.com/womerso)**
+
+  * Feature 2.1: 
