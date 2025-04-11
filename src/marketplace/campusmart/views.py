@@ -80,20 +80,36 @@ def logout(request):
     return redirect('campusmart:home') 
 
 def create_listing(request):
-    return redirect('campusmart:home')
+   # return redirect('campusmart:home')
     parentForm = CreateListingForm(request.POST or None)
-    factoryForm = ListingImageForm(request.POST or None, instance=Listing())
+    #factoryForm = ListingImageForm(request.POST or None, instance=Listing())
     error_messages = []
+    
 
 
     if request.method == 'POST':
+        print(parentForm.data)
+        print(parentForm.errors)
         if parentForm.is_valid():
+
+            print(parentForm.cleaned_data)
             title = parentForm.cleaned_data['title']
             if len(title) <= 0:
                 error_messages.append("Title cannot be empty")
             description = parentForm.cleaned_data['description']
             if len(description) <= 0:
                 error_messages.append("Description cannot be empty")
-
-        return render(request, 'campusmart/create_listing.html', {'parentForm': parentForm, 'factoryForm': factoryForm, 'error_messages': error_messages})
+            price = parentForm.cleaned_data['price']
+            listing = Listing(
+                    title=title,
+                    description=description,
+                    price=price,
+                    condition=parentForm.cleaned_data['condition']
+                    #image=make_password(password),  # Hash the password before saving
+                )
+            listing.save()
+            messages.success(request, "User created successfully!")
+            return redirect('campusmart:home')
+    #return redirect('campusmart:home')
+    return render(request, 'campusmart/create_listing.html', {'parentForm': parentForm, ''''factoryForm': factoryForm,''' 'error_messages': error_messages})
 

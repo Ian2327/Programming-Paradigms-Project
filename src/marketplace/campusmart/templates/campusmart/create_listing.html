@@ -1,0 +1,50 @@
+{% extends "./base_page.html" %}
+{% block content %}
+<div class="container">
+    <div class="login-container">
+        <h2 class="text-center mb-4">Create Listing</h2>
+        
+        {% if error_messages %}
+            {% for error_message in error_messages %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error_message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="id_title" class="form-label">Listing Name</label>
+                <input type="text" class="form-control" name="title" id="id_title" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="id_description" class="form-label">Description</label>
+                <input type="text" class="form-control" name="description" id="id_description" required>
+            </div>  
+            
+            <div class="mb-3">
+                <label for="id_condition" class="form-label">Condition</label>
+                <input type="text" class="form-control" name="condition" id="id_condition" required>
+
+            </div>
+
+            <div class="mb-3">
+                <label for="id_price" class="form-label">Price</label>
+                <input type="double" class="form-control" name="price" id="id_price" >
+            </div>
+
+            <!-- <div class="mb-3">
+                <label for="id_password_auth" class="form-label">Photos</label>
+                <input type="file" class="form-control" name="photo_upload" id="id_photo" >
+            </div>  -->
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Create User</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

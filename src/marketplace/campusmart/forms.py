@@ -23,9 +23,9 @@ class CreateListingForm(forms.Form):
         "P" : "Poor"
     }
     title = forms.CharField(max_length=200)
-    description = forms.TextInput()
+    description = forms.CharField(max_length=4000)
     price = forms.DecimalField(decimal_places=2)
-    condition = forms.ChoiceField(choices=conditionChoices)
+    condition = forms.CharField()
 
 ListingImageForm = forms.inlineformset_factory(
     parent_model=Listing,
