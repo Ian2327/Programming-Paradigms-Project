@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 
@@ -7,20 +8,29 @@ class User(models.Model):
     username = models.CharField(max_length=200, unique=True)
     password = models.TextField()
     email = models.EmailField(max_length=200, unique=True)
-    is_authenticated = False
 
     def __str__(self):
         return self.name
 
 
 class Listing(models.Model):
-
+    conditionChoices = [
+        ("N", "New"),
+        ("L" , "Like New"),
+        ("V" , "Very Good"),
+        ("G" , "Good"),
+        ("A" , "Acceptable"),
+        ("F" , "Fair"),
+        ("P" , "Poor")
+    ]
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=4000)
     price = models.DecimalField(decimal_places=2, max_digits=9)
-    condition = models.CharField(max_length=10)
+    condition = models.CharField(max_length=1, choices=conditionChoices, default="G")
     available_status = models.BooleanField(default=True)
-   # seller = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField(default=timezone.now)
+    primary_photo = models.ImageField(upload_to='')
+    seller = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Image(models.Model):
     photo = models.ImageField(upload_to='')

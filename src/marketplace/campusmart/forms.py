@@ -13,19 +13,20 @@ class CreateUserForm(forms.Form):
     password_auth = forms.CharField(widget=forms.PasswordInput)
 
 class CreateListingForm(forms.Form):
-    conditionChoices = {
-        "N" : "New",
-        "L" : "Like New",
-        "V" : "Very Good",
-        "G" : "Good",
-        "A" : "Acceptable",
-        "F" : "Fair",
-        "P" : "Poor"
-    }
+    conditionChoices = [
+        ("N", "New"),
+        ("L" , "Like New"),
+        ("V" , "Very Good"),
+        ("G" , "Good"),
+        ("A" , "Acceptable"),
+        ("F" , "Fair"),
+        ("P" , "Poor")
+    ]
     title = forms.CharField(max_length=200)
-    description = forms.CharField(max_length=4000)
-    price = forms.DecimalField(decimal_places=2)
-    condition = forms.CharField()
+    description = forms.CharField(max_length=4000, widget=forms.Textarea)
+    price = forms.DecimalField(decimal_places=2, min_value=0.01)
+    condition = forms.ChoiceField(choices=conditionChoices)
+    image = forms.ImageField()
 
 ListingImageForm = forms.inlineformset_factory(
     parent_model=Listing,

@@ -12,37 +12,14 @@
             {% endfor %}
         {% endif %}
         
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            
-            <div class="mb-3">
-                <label for="id_title" class="form-label">Listing Name</label>
-                <input type="text" class="form-control" name="title" id="id_title" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="id_description" class="form-label">Description</label>
-                <input type="text" class="form-control" name="description" id="id_description" required>
-            </div>  
-            
-            <div class="mb-3">
-                <label for="id_condition" class="form-label">Condition</label>
-                <input type="text" class="form-control" name="condition" id="id_condition" required>
-
-            </div>
-
-            <div class="mb-3">
-                <label for="id_price" class="form-label">Price</label>
-                <input type="double" class="form-control" name="price" id="id_price" >
-            </div>
-
-            <!-- <div class="mb-3">
-                <label for="id_password_auth" class="form-label">Photos</label>
-                <input type="file" class="form-control" name="photo_upload" id="id_photo" >
-            </div>  -->
+            <ul>
+                {{ parentForm.as_ul }}
+            </ul>
 
             <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary">Create User</button>
+                <button type="submit" class="btn btn-primary">Create Listing</button>
             </div>
         </form>
     </div>

@@ -3,8 +3,6 @@ from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
-from django.contrib.auth import logout as auth_logout
 from django.contrib import messages
 from .models import User, Listing
 
@@ -76,18 +74,21 @@ def home(request):
 
 def logout(request):
     # remove the logged-in user information
-    auth_logout(request)
+    del request.session['user']
     return redirect('campusmart:home') 
 
 def create_listing(request):
+    if 'user' not in request.session:
+        return redirect('campusmart:login')
    # return redirect('campusmart:home')
-    parentForm = CreateListingForm(request.POST or None)
     #factoryForm = ListingImageForm(request.POST or None, instance=Listing())
     error_messages = []
-    
+    username = request.session['user']
+    user = User.objects.get(username=username)
 
 
     if request.method == 'POST':
+        parentForm = CreateListingForm(request.POST, request.FILES)
         print(parentForm.data)
         print(parentForm.errors)
         if parentForm.is_valid():
@@ -100,16 +101,20 @@ def create_listing(request):
             if len(description) <= 0:
                 error_messages.append("Description cannot be empty")
             price = parentForm.cleaned_data['price']
+            image = parentForm.cleaned_data['image']
             listing = Listing(
                     title=title,
                     description=description,
                     price=price,
-                    condition=parentForm.cleaned_data['condition']
-                    #image=make_password(password),  # Hash the password before saving
+                    condition=parentForm.cleaned_data['condition'],
+                    seller=user,
+                    primary_photo=image
                 )
             listing.save()
             messages.success(request, "User created successfully!")
             return redirect('campusmart:home')
+    else:
+        parentForm = CreateListingForm()
     #return redirect('campusmart:home')
     return render(request, 'campusmart/create_listing.html', {'parentForm': parentForm, ''''factoryForm': factoryForm,''' 'error_messages': error_messages})
 
