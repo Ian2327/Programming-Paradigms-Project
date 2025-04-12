@@ -22,11 +22,11 @@ class CreateListingForm(forms.Form):
         ("F" , "Fair"),
         ("P" , "Poor")
     ]
-    title = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class':'form-control'}))
-    description = forms.CharField(max_length=4000, widget=forms.Textarea(attrs={'class':'form-control'}))
-    price = forms.DecimalField(decimal_places=2, min_value=0.01, widget=forms.NumberInput(attrs={'class':'form-control'})) 
-    condition = forms.ChoiceField(choices=conditionChoices, widget=forms.Select(attrs={'class':'form-control'}))
-    image = forms.ImageField(widget=forms.FileInput(attrs={'class':'form-control'}))
+    title = forms.CharField(max_length=200)
+    description = forms.CharField(max_length=4000, widget=forms.Textarea(attrs={'rows':1}))
+    price = forms.DecimalField(decimal_places=2, min_value=0.01)
+    condition = forms.ChoiceField(choices=conditionChoices)
+    image = forms.ImageField()
 
 ListingImageForm = forms.inlineformset_factory(
     parent_model=Listing,

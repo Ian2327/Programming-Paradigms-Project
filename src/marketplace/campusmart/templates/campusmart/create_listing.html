@@ -5,24 +5,13 @@
     <div class="login-container">
         <h2 class="text-center mb-4">Create Listing</h2>
         
-        {% if error_messages %}
-            {% for error_message in error_messages %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error_message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-        <form method="post" enctype="multipart/form-data" class="form-group">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <ul>
-                {{ parentForm }}
-            </ul>
+            {{ parentForm.as_p }}
 
-            <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary">Create Listing</button>
-            </div>
-            <br/>
+            <button type="submit" class="btn btn-primary">Create Listing</button>
         </form>
+        
     </div>
 </div>
 
