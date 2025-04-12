@@ -20,3 +20,7 @@ Project contributors (sorted alphabetically)
 * **[Wesley Omerso](https://github.com/womerso)**
 
   * Feature 2.1: 
+    *Added additional form for creating Listing using Django's form model
+    *Implemented base_page.html as a base template for all site pages
+    *Implemented changing navbar highlight between pages
+    
