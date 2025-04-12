@@ -1,5 +1,6 @@
 {% extends "./base_page.html" %}
 {% block content %}
+
 <div class="container">
     <div class="login-container">
         <h2 class="text-center mb-4">Create Listing</h2>
@@ -11,17 +12,19 @@
                 </div>
             {% endfor %}
         {% endif %}
-        
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" class="form-group">
             {% csrf_token %}
             <ul>
-                {{ parentForm.as_ul }}
+                {{ parentForm }}
             </ul>
 
             <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-primary">Create Listing</button>
             </div>
+            <br/>
         </form>
     </div>
 </div>
+
 {% endblock %}
+{% block currPage %}"listTab"{% endblock %}
