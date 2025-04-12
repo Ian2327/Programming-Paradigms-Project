@@ -80,26 +80,18 @@ def logout(request):
 def create_listing(request):
     if 'user' not in request.session:
         return redirect('campusmart:login')
-   # return redirect('campusmart:home')
     #factoryForm = ListingImageForm(request.POST or None, instance=Listing())
-    error_messages = []
     username = request.session['user']
     user = User.objects.get(username=username)
 
 
     if request.method == 'POST':
         parentForm = CreateListingForm(request.POST, request.FILES)
-        print(parentForm.data)
-        print(parentForm.errors)
         if parentForm.is_valid():
 
             print(parentForm.cleaned_data)
             title = parentForm.cleaned_data['title']
-            if len(title) <= 0:
-                error_messages.append("Title cannot be empty")
             description = parentForm.cleaned_data['description']
-            if len(description) <= 0:
-                error_messages.append("Description cannot be empty")
             price = parentForm.cleaned_data['price']
             image = parentForm.cleaned_data['image']
             listing = Listing(
@@ -116,5 +108,5 @@ def create_listing(request):
     else:
         parentForm = CreateListingForm()
     #return redirect('campusmart:home')
-    return render(request, 'campusmart/create_listing.html', {'parentForm': parentForm, ''''factoryForm': factoryForm,''' 'error_messages': error_messages})
+    return render(request, 'campusmart/create_listing.html', {'parentForm': parentForm} ) #factoryForm': factoryForm,'')
 

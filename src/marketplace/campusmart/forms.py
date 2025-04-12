@@ -23,7 +23,7 @@ class CreateListingForm(forms.Form):
         ("P" , "Poor")
     ]
     title = forms.CharField(max_length=200)
-    description = forms.CharField(max_length=4000, widget=forms.Textarea)
+    description = forms.CharField(max_length=4000, widget=forms.Textarea(attrs={'rows':1}))
     price = forms.DecimalField(decimal_places=2, min_value=0.01)
     condition = forms.ChoiceField(choices=conditionChoices)
     image = forms.ImageField()
