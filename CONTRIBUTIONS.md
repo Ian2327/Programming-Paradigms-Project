@@ -3,7 +3,9 @@ Project contributors (sorted alphabetically)
 
 * **[Hayden Slade](https://github.com/hayden-slade)**
 
-  * Feature 1.1: Created the form using Django's Form model for registering a new custom User object
+  * Feature 1.1: 
+    *Created The User module
+    *Created the form using Django's Form model for registering a new custom User object
 
 
 * **[Ian Setia](https://github.com/Ian2327)**
