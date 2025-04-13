@@ -8,7 +8,10 @@ Project contributors (sorted alphabetically)
 
 * **[Ian Setia](https://github.com/Ian2327)**
 
-  * Feature 1.2: Created login form using Django's Form model, implementing custom User object
+  * Feature 1.2: 
+    *Created login form using Django's Form model, implementing custom User object
+    *Makes it check if the entered username and password matches one in the database
+    *Made it have a link to the create account page
   * Feature 1.3: Added logout feature, removing logged in user from session
   * Home page: Created template for home page with links to login, listing products, and searching for products
 
