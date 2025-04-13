@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import User, Listing
+from django.utils import timezone
 
 
 # Create your views here.
@@ -78,18 +79,23 @@ def logout(request):
     return redirect('campusmart:home') 
 
 def create_listing(request):
-    if 'user' not in request.session:
+    if 'user' not in request.session: #redirect to login if not logged in
         return redirect('campusmart:login')
     #factoryForm = ListingImageForm(request.POST or None, instance=Listing())
+
     username = request.session['user']
     user = User.objects.get(username=username)
+    today = timezone.now()
+
+    listings_today = Listing.objects.filter(seller=user, date=today)
+    if len(listings_today) >= 3: # redirect to pay prompt if over the limit
+        return redirect('campusmart:paywall')
 
 
     if request.method == 'POST':
         parentForm = CreateListingForm(request.POST, request.FILES)
         if parentForm.is_valid():
 
-            print(parentForm.cleaned_data)
             title = parentForm.cleaned_data['title']
             description = parentForm.cleaned_data['description']
             price = parentForm.cleaned_data['price']
@@ -103,10 +109,12 @@ def create_listing(request):
                     primary_photo=image
                 )
             listing.save()
-            messages.success(request, "User created successfully!")
+            messages.success(request, "Listing created successfully!")
             return redirect('campusmart:home')
     else:
         parentForm = CreateListingForm()
     #return redirect('campusmart:home')
-    return render(request, 'campusmart/create_listing.html', {'parentForm': parentForm} ) #factoryForm': factoryForm,'')
+    return render(request, 'campusmart/create_listing.html', {'parentForm': parentForm} ) #factoryForm': factoryForm} )
 
+def paywall(request):
+    return render(request, 'campusmart/paywall.html')
