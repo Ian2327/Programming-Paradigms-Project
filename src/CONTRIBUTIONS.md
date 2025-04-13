@@ -8,8 +8,8 @@ Project contributors (sorted alphabetically)
 
 * **[Ian Setia](https://github.com/Ian2327)**
 
-  * Feature 1.2: Created login form using Django's Form model
-  * Feature 1.3: Added logout feature
+  * Feature 1.2: Created login form using Django's Form model, implementing custom User object
+  * Feature 1.3: Added logout feature, removing logged in user from session
   * Home page: Created template for home page with links to login, listing products, and searching for products
 
 * **[Jack Blake](https://github.com/halftimejack)**
