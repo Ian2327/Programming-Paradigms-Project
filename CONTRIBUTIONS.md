@@ -15,6 +15,10 @@ Project contributors (sorted alphabetically)
 * **[Jack Blake](https://github.com/halftimejack)**
 
   * Feature 2.1: 
+    *Created models for Listing and Image
+    *Implemented checking for signin and daily limit to access creation form
+    *Set up MEDIA_ROOT and other image collection prerequisites
+    *Created dropdown and decimal form fields
   * Phase 1 Report: Documented all implemented features and technologies used 
   
 * **[Wesley Omerso](https://github.com/womerso)**
