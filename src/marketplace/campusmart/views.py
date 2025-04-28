@@ -7,6 +7,7 @@ from django.contrib import messages
 from .models import User, Listing
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import requests
 
 
 # Create your views here.
@@ -152,3 +153,37 @@ def search_results(request):
     context = {'filtered_listings':filtered_listings,}
 
     return render(request, 'campusmart/search_results.html', context)
+
+def buy_coin_view(request):
+    if 'user' not in request.session: #redirect to login if not logged in
+        return redirect('campusmart:login')
+    username = request.session['user']
+    user = User.objects.get(username=username)
+    currUser = ""
+    print(user)
+    today = timezone.now()
+    currAmount = view_balance_for_user("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU0NTA1NTg0LCJpYXQiOjE3NDU4NjU1ODQsImp0aSI6IjA5MmZhZDQ5ZGZhOTQyZTg5YTU4YjZhMzBlOWRmNjM5IiwidXNlcl9pZCI6Njh9.r9stWOk9hhqYJCDgn2QRddonoxhyZrKtdGxOJZ9vIJI", user.email)
+    
+    
+    context = {
+        'amt':currAmount["amount"]
+    }
+    
+    return render(request, "campusmart/buy_coins.html",context=context)
+
+def view_balance_for_user(access_token, email):
+   # Use the access token to make an authenticated request
+   headers = {
+       'Authorization': f'Bearer {access_token}'
+   }
+
+
+   # Make a GET request with the authorization header
+   api_response = requests.get(f"https://jcssantos.pythonanywhere.com/api/group10/group10/player/{email}/", headers=headers)
+
+
+   if api_response.status_code == 200:
+       # Process the data from the API
+       return api_response.json()
+   else:
+       print("Failed to access the API endpoint to view balance for user:", api_response.status_code)
