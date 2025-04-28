@@ -50,10 +50,10 @@
                         <a id="homeTab" class="nav-link active" href="{% url 'campusmart:home' %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a id="listTab" class="nav-link" href="{% url 'campusmart:create_listing' %}">Create a Listing</a>
+                        <a id="listTab" class="nav-link" href="{% url 'campusmart:listings' %}">Browse</a>
                     </li>
                     <li class="nav-item">
-                        <a id="sellTab" class="nav-link" href="#">Sell</a>
+                        <a id="sellTab" class="nav-link" href="{% url 'campusmart:create_listing' %}">Sell</a>
                     </li>
                     <li class="nav-item">
                         <a id="aboutTab" class="nav-link" href="#">About</a>
