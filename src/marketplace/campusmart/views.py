@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import User, Listing
 from django.utils import timezone
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
@@ -118,3 +119,36 @@ def create_listing(request):
 
 def paywall(request):
     return render(request, 'campusmart/paywall.html')
+
+def listings(request):
+    all_listings = Listing.objects.all().order_by('-date')
+
+    paginator = Paginator(all_listings, 20)
+    page = request.GET.get('page')
+    try:
+        listings = paginator.page(page)
+    except PageNotAnInteger:
+        listings = paginator.page(1)
+    except EmptyPage:
+        listings = paginator.page(paginator.num_pages)
+
+    context = {'listings':listings,}
+
+    return render(request, 'campusmart/view_listings.html', context)
+
+def search_results(request):
+    all_listings = Listing.objects.all().order_by('-date')
+    query = request.GET.get('query')
+    filtered_listings = all_listings.filter(title__icontains=query)
+    paginator = Paginator(filtered_listings, 20)
+    page = request.GET.get('page')
+    try:
+        filtered_listings = paginator.page(page)
+    except PageNotAnInteger:
+        filtered_listings = paginator.page(1)
+    except EmptyPage:
+        filtered_listings = paginator.page(paginator.num_pages)
+
+    context = {'filtered_listings':filtered_listings,}
+
+    return render(request, 'campusmart/search_results.html', context)

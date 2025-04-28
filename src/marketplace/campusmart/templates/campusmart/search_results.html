@@ -1,0 +1,123 @@
+{% extends "./base_page.html" %}
+{% block content %}
+<br>
+<h1 class="mb-4 text-center" style="padding-top:20px">Filtered Listings</h1>
+
+<div class="row" style="margin-left:0.5%;">
+    {% for listing in filtered_listings %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <!-- Primary Photo -->
+            <div class="card-img-top-container" style="height: 200px; overflow: hidden;">
+                {% if listing.primary_photo %}
+                <img src="{{ listing.primary_photo.url }}" class="card-img-top img-fluid" alt="{{ listing.title }}" style="object-fit: cover; height: 100%; width: 100%;">
+                {% else %}
+                <div class="d-flex align-items-center justify-content-center bg-light" style="height: 100%;">
+                    <span class="text-muted">No Image</span>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="card-body">
+                <h5 class="card-title">{{ listing.title }}</h5>
+                
+                <!-- Price -->
+                <h6 class="text-success mb-2">${{ listing.price }}</h6>
+                
+                <!-- Condition -->
+                <div class="mb-2">
+                    <span class="badge 
+                        {% if listing.condition == 'N' %}bg-primary
+                        {% elif listing.condition == 'L' %}bg-info
+                        {% elif listing.condition == 'V' %}bg-success
+                        {% elif listing.condition == 'G' %}bg-secondary
+                        {% elif listing.condition == 'A' %}bg-warning text-dark
+                        {% elif listing.condition == 'F' %}bg-orange text-white
+                        {% else %}bg-dark text-white{% endif %}">
+                        {{ listing.get_condition_display }}
+                    </span>
+                    
+                    <!-- Availability -->
+                    {% if listing.available_status %}
+                    <span class="badge bg-success">Available</span>
+                    {% else %}
+                    <span class="badge bg-danger">Sold</span>
+                    {% endif %}
+                </div>
+                
+                <!-- Truncated Description -->
+                <p class="card-text text-muted">
+                    {{ listing.description|truncatechars:100 }}
+                </p>
+            </div>
+            
+            <div class="card-footer bg-transparent">
+                <div class="d-flex justify-content-between align-items-center">
+                    <!-- Date -->
+                    <small class="text-muted">Posted: {{ listing.date|date:"M d, Y" }}</small>
+                    
+                    <!-- Seller -->
+                    <small class="text-muted">Seller: {{ listing.seller.username }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info">No listings available.</div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Pagination -->
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center mt-4">
+        {% if page.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1" aria-label="First">
+                <span aria-hidden="true">&laquo;&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% endif %}
+        
+        {% for num in page.paginator.page_range %}
+            {% if page.number == num %}
+            <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+            {% elif num > page.number|add:'-3' and num < page.number|add:'3' %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+        {% endfor %}
+        
+        {% if page.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page.paginator.num_pages }}" aria-label="Last">
+                <span aria-hidden="true">&raquo;&raquo;</span>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
+<style>
+    .bg-orange {
+        background-color: #fd7e14;
+    }
+    .card {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}
