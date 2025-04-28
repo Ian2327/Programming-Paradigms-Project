@@ -138,7 +138,7 @@ def listings(request):
 
 def search_results(request):
     all_listings = Listing.objects.all().order_by('-date')
-    query = request.GET.get('query')
+    query = request.GET.get('query', '')
     filtered_listings = all_listings.filter(title__icontains=query)
     paginator = Paginator(filtered_listings, 20)
     page = request.GET.get('page')
