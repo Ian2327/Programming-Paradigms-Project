@@ -140,7 +140,10 @@ def listings(request):
 def search_results(request):
     all_listings = Listing.objects.all().order_by('-date')
     query = request.GET.get('query', '')
-    filtered_listings = all_listings.filter(title__icontains=query)
+    filtered_listings_title = all_listings.filter(title__icontains=query)
+    filtered_listings_description = all_listings.filter(description__icontains=query)
+    filtered_listings = filtered_listings_title|filtered_listings_description
+
     paginator = Paginator(filtered_listings, 20)
     page = request.GET.get('page')
     try:
