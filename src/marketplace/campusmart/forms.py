@@ -47,8 +47,8 @@ class EditListingForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class':'form-control'}),
             'price': forms.NumberInput(attrs={'class':'form-control'}),
             'condition': forms.Select(attrs={'class':'form-control'}),
-            'available_status': forms.CheckboxInput,
-            'primary_photo': forms.FileInput,
+            'available_status': forms.RadioSelect(choices=((True, 'Available'), (False, 'Sold'))),
+            'primary_photo': forms.FileInput
         }
         
 class BuyListingForm(forms.Form):

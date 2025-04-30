@@ -12,7 +12,7 @@
             {% csrf_token %}
             {% for field in parentForm %}
             {% if field.name != 'primary_photo' %}
-              <div class="mb-3">
+            <div class="mb-3">
                 {{ field.label_tag }}
                 {{ field }}
                 {% if field.errors %}
@@ -21,7 +21,7 @@
                 {% if field.help_text %}
                   <div class="form-text">{{ field.help_text }}</div>
                 {% endif %}
-              </div>
+            </div>
             {% endif %}
             {% endfor %}
 
