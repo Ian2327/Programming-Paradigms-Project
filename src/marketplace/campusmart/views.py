@@ -287,10 +287,6 @@ def buy_coin_view(request):
     
     return render(request, "campusmart/buy_coins.html",context=context)
 
-def delete_listing(listing):
-    listing.delete()
-
-
 def view_balance_for_user(access_token, email):
    # Use the access token to make an authenticated request
    headers = {
