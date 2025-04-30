@@ -21,7 +21,6 @@
             
             <div class="card-body">
                 <h5 class="card-title">{{ listing.title }}</h5>
-                
                 <!-- Price -->
                 <h6 class="text-success mb-2">${{ listing.price }}</h6>
                 
@@ -50,6 +49,10 @@
                 <p class="card-text text-muted">
                     {{ listing.description|truncatechars:100 }}
                 </p>
+                {% if can_delete %}
+                    <span><a href="delete/{{listing}}"><button class="btn btn-danger">Delete</span></a>
+                {%endif%}
+                
             </div>
             
             <div class="card-footer bg-transparent">

@@ -7,6 +7,7 @@ from django.contrib import messages
 from .models import User, Listing
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .forms import BuyListingForm
 import requests
 
 
@@ -27,6 +28,7 @@ def login_view(request):
             if len(user) > 0 and check_password(password, user[0].password):
                 # create a new session
                 request.session["user"] = username
+
                 return HttpResponseRedirect(reverse('campusmart:home'))
             else:
                 error_message = "The username/password combination does not match our records."
@@ -89,12 +91,20 @@ def create_listing(request):
     today = timezone.now()
 
     listings_today = Listing.objects.filter(seller=user, date=today)
-    if len(listings_today) >= 3: # redirect to pay prompt if over the limit
-        return redirect('campusmart:paywall')
+   
+    
 
 
     if request.method == 'POST':
         parentForm = CreateListingForm(request.POST, request.FILES)
+        if len(listings_today) >= 3: # redirect to pay prompt if over the limit
+            if user.extra_listings_remaining <= 0:
+                print(user.extra_listings_remaining)
+                return redirect('campusmart:paywall')
+            print(user.extra_listings_remaining)
+            user.extra_listings_remaining -= 1
+            print(user.extra_listings_remaining)
+            user.save()
         factoryForm = ListingImageForm(request.POST, request.FILES)
         if parentForm.is_valid() and factoryForm.is_valid():
 
@@ -225,23 +235,61 @@ def delete_listing(request, pk):
     listing.delete()
     messages.success(request, 'Item deleted successfully!')
     return redirect('campusmart:home')
+def user_listings(request):
+    user = User.objects.get(username=request.session['user'])
+    all_listings = Listing.objects.all().filter(seller=user).order_by('-date')
+
+    paginator = Paginator(all_listings, 20)
+    page = request.GET.get('page')
+    try:
+        listings = paginator.page(page)
+    except PageNotAnInteger:
+        listings = paginator.page(1)
+    except EmptyPage:
+        listings = paginator.page(paginator.num_pages)
+
+    context = {'listings':listings,'can_delete':True}
+
+    return render(request, 'campusmart/view_listings.html', context)
 
 def buy_coin_view(request):
     if 'user' not in request.session: #redirect to login if not logged in
         return redirect('campusmart:login')
     username = request.session['user']
+    error_message = None
     user = User.objects.get(username=username)
     currUser = ""
     print(user)
     today = timezone.now()
     currAmount = view_balance_for_user("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU0NTA1NTg0LCJpYXQiOjE3NDU4NjU1ODQsImp0aSI6IjA5MmZhZDQ5ZGZhOTQyZTg5YTU4YjZhMzBlOWRmNjM5IiwidXNlcl9pZCI6Njh9.r9stWOk9hhqYJCDgn2QRddonoxhyZrKtdGxOJZ9vIJI", user.email)
     
+
     
+    
+    if request.method == "POST":
+        form = BuyListingForm(request.POST)
+        if form.is_valid():
+            if type(user_pay("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU0NTA1NTg0LCJpYXQiOjE3NDU4NjU1ODQsImp0aSI6IjA5MmZhZDQ5ZGZhOTQyZTg5YTU4YjZhMzBlOWRmNjM5IiwidXNlcl9pZCI6Njh9.r9stWOk9hhqYJCDgn2QRddonoxhyZrKtdGxOJZ9vIJI", user.email, form.cleaned_data['amount'])) != dict:
+                error_message="Insufficent Funds"
+            else:
+                user.extra_listings_remaining+=1
+                user.save()
+                return HttpResponseRedirect("/buy_coin" )
+    else:
+        form = BuyListingForm()
     context = {
-        'amt':currAmount["amount"]
+        'amt':currAmount["amount"],
+        'email':user.email,
+        'form':form,
+        'error_message':error_message
+        
     }
     
     return render(request, "campusmart/buy_coins.html",context=context)
+
+def delete_listing(listing):
+    listing.delete()
+
 
 def view_balance_for_user(access_token, email):
    # Use the access token to make an authenticated request
@@ -259,3 +307,18 @@ def view_balance_for_user(access_token, email):
        return api_response.json()
    else:
        print("Failed to access the API endpoint to view balance for user:", api_response.status_code)
+def user_pay(access_token, email, amount):
+   # Use the access token to make an authenticated request
+   headers = {
+       'Authorization': f'Bearer {access_token}'
+   }
+   data = {"amount": amount} # non-negative integer value to be decreased
+   # Make a POST request with the authorization header and data payload
+   api_response = requests.post(f"https://jcssantos.pythonanywhere.com/api/group10/group10/player/{email}/pay", headers=headers, data=data)
+
+
+   if api_response.status_code == 200:
+       # Process the data from the API
+       return api_response.json()
+   else:
+       print("Failed to access the API endpoint to pay:", api_response.status_code)

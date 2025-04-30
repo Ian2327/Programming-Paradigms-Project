@@ -15,5 +15,8 @@ urlpatterns = [
     path('paywall/', views.paywall, name='paywall'),
     path('buy_coin/', views.buy_coin_view, name='buy_coins'),
     path('view-listings/', views.listings, name='listings'),
-    path('search-results/', views.search_results, name='search_results')
+    path('search-results/', views.search_results, name='search_results'),
+    path('checkout/', views.user_pay, name='checkout'),
+    path('my_listings/', views.user_listings, name="user_listings"),
+    path('delete/<obj>', views.delete_listing, name="delete")
 ]

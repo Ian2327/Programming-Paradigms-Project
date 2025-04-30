@@ -7,6 +7,19 @@
                 <p class="text-center">You have {{ amt }} coins</p>
             </div>
         </div>
+        <div class="row">
+        {% if error_message %}  
+                <div class="alert alert-danger" role="alert">
+                    {{ error_message }}
+                </div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btm btn-primary" type="submit">Buy</button>
+        </form>    
+        
+        </div>"
     </div>
     
 

@@ -1,6 +1,7 @@
 from django import forms
 from .models import Listing, Image
 
+
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=200)
     password = forms.CharField(widget=forms.PasswordInput)
@@ -49,3 +50,6 @@ class EditListingForm(forms.ModelForm):
             'available_status': forms.CheckboxInput,
             'primary_photo': forms.FileInput,
         }
+        
+class BuyListingForm(forms.Form):
+    amount = forms.IntegerField()
