@@ -1,6 +1,7 @@
 from django import forms
 from .models import Listing, Image
 
+
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=200)
     password = forms.CharField(widget=forms.PasswordInput)
@@ -35,3 +36,5 @@ ListingImageForm = forms.inlineformset_factory(
     extra=1,
     can_delete=True
 )
+class BuyListingForm(forms.Form):
+    amount = forms.IntegerField()
