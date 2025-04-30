@@ -81,7 +81,6 @@ def logout(request):
 def create_listing(request):
     if 'user' not in request.session: #redirect to login if not logged in
         return redirect('campusmart:login')
-    #factoryForm = ListingImageForm(request.POST or None, instance=Listing())
 
     username = request.session['user']
     user = User.objects.get(username=username)
@@ -94,7 +93,8 @@ def create_listing(request):
 
     if request.method == 'POST':
         parentForm = CreateListingForm(request.POST, request.FILES)
-        if parentForm.is_valid():
+        factoryForm = ListingImageForm(request.POST, request.FILES)
+        if parentForm.is_valid() and factoryForm.is_valid():
 
             title = parentForm.cleaned_data['title']
             description = parentForm.cleaned_data['description']
@@ -109,12 +109,14 @@ def create_listing(request):
                     primary_photo=image
                 )
             listing.save()
+            factoryForm.instance = listing
+            factoryForm.save()
             messages.success(request, "Listing created successfully!")
             return redirect('campusmart:home')
     else:
         parentForm = CreateListingForm()
-    #return redirect('campusmart:home')
-    return render(request, 'campusmart/create_listing.html', {'parentForm': parentForm} ) #factoryForm': factoryForm} )
+        factoryForm = ListingImageForm(instance=Listing())
+    return render(request, 'campusmart/create_listing.html', {'parentForm': parentForm, 'factoryForm' : factoryForm} )
 
 def paywall(request):
     return render(request, 'campusmart/paywall.html')

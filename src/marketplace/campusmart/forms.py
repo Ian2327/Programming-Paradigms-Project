@@ -28,10 +28,18 @@ class CreateListingForm(forms.Form):
     condition = forms.ChoiceField(choices=conditionChoices, widget=forms.Select(attrs={'class':'form-control'}))
     image = forms.ImageField(widget=forms.FileInput(attrs={'class':'form-control'}))
 
+class ImageForm(forms.ModelForm):
+    class Meta:
+        model = Image
+        fields = ('image',)
+        widgets = {
+            'image': forms.FileInput(attrs={'class': 'form-control'})
+        }
+
 ListingImageForm = forms.inlineformset_factory(
     parent_model=Listing,
     model=Image,
-    fields=('photo',),
-    extra=1,
+    fields=('image',),
+    extra=0,
     can_delete=True
 )

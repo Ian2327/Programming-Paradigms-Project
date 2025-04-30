@@ -10,11 +10,66 @@
             {% csrf_token %}
             {{ parentForm.as_p }}
 
+            {{ factoryForm.management_form }}
+            <div id="image-formset-container">
+                {% for form in factoryForm %}
+                <div class="form-group">
+                    {{ form.image.label_tag }}
+                    {{ form.image }}
+                    {{ form.image.errors }}
+                </div>
+                {% endfor %}
+            </div>
+
+            <button type="button" id="add-image-form" class="btn btn-secondary mt-2">Add Another Image</button>
             <button type="submit" class="btn btn-primary">Create Listing</button>
         </form>
         <br/>
     </div>
 </div>
+
+<script>
+    const imageFormContainer = document.getElementById('image-formset-container');
+    const totalForms = document.getElementById('id_image_set-TOTAL_FORMS');
+    let formNum = imageFormContainer.querySelectorAll('.form-group').length;
+    console.log(formNum);
+    let emptyForm = document.querySelector('.form-group');
+    
+    if (formNum > 0) {
+        emptyForm = document.querySelector('.form-group').cloneNode(true);
+    }
+    
+    document.getElementById('add-image-form').addEventListener('click', function() {
+        console.log("clicked");
+        let newForm;
+        if (formNum === 0) {
+            // Create the first form directly (you might need to construct the HTML)
+            newForm = document.createElement('div');
+            newForm.classList.add('form-group');
+            newForm.innerHTML = `
+                <p><label for="id_image_set-0-image">Image:</label> <input type="file" name="image_set-0-image" id="id_image_set-0-image" class="form-control"></p>
+            `;
+            imageFormContainer.appendChild(newForm);
+            emptyForm = newForm;
+
+        } else {
+            newForm = emptyForm.cloneNode(true);
+            newForm.querySelectorAll('input, select, textarea, label').forEach(element => {
+                const newId = element.id ? element.id.replace('image_set-' + (formNum - 1) + '-', '-' + formNum + '-') : null;
+                const newName = element.name ? element.name.replace('image_set-' + (formNum - 1) + '-', '-' + formNum + '-') : null;
+                if (newId) element.id = newId;
+                if (newName) element.name = newName;
+                if (element.tagName === 'INPUT' && element.type === 'file') {
+                    element.value = '';
+                }
+                imageFormContainer.appendChild(newForm);
+            });
+        }
+
+        formNum++;
+        totalForms.value = formNum;
+    });
+    </script>
 
 {% endblock %}
 {% block currPage %}"listTab"{% endblock %}

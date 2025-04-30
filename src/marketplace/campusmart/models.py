@@ -33,5 +33,5 @@ class Listing(models.Model):
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Image(models.Model):
-    photo = models.ImageField(upload_to='')
+    image = models.ImageField(upload_to='')
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
