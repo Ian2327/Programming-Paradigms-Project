@@ -89,10 +89,10 @@
         <div class="container">
             <h1 class="display-4 fw-bold mb-4">Buy & Sell on Campus</h1>
             <p class="lead mb-5">The easiest way to find textbooks, furniture, electronics and more from your fellow students</p>
-            <form class="row g-2 justify-content-center">
+            <form class="row g-2 justify-content-center" action="{% url 'campusmart:search_results' %}" method="GET">
                 <div class="col-md-8">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control form-control-lg" placeholder="Search for items...">
+                        <input type="text" name="query" class="form-control form-control-lg" placeholder="Search for items...">
                         <button class="btn btn-warning" type="submit">Search</button>
                     </div>
                 </div>
