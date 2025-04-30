@@ -28,14 +28,6 @@ class CreateListingForm(forms.Form):
     condition = forms.ChoiceField(choices=conditionChoices, widget=forms.Select(attrs={'class':'form-control'}))
     image = forms.ImageField(widget=forms.FileInput(attrs={'class':'form-control'}))
 
-class ImageForm(forms.ModelForm):
-    class Meta:
-        model = Image
-        fields = ('image',)
-        widgets = {
-            'image': forms.FileInput(attrs={'class': 'form-control'})
-        }
-
 ListingImageForm = forms.inlineformset_factory(
     parent_model=Listing,
     model=Image,
@@ -43,3 +35,17 @@ ListingImageForm = forms.inlineformset_factory(
     extra=0,
     can_delete=True
 )
+
+class EditListingForm(forms.ModelForm):
+
+    class Meta:
+        model = Listing
+        fields = ['title', 'description', 'price', 'condition', 'available_status', 'primary_photo']
+        widgets = {
+            'title': forms.TextInput(attrs={'class':'form-control'}),
+            'description': forms.Textarea(attrs={'class':'form-control'}),
+            'price': forms.NumberInput(attrs={'class':'form-control'}),
+            'condition': forms.Select(attrs={'class':'form-control'}),
+            'available_status': forms.CheckboxInput,
+            'primary_photo': forms.FileInput,
+        }

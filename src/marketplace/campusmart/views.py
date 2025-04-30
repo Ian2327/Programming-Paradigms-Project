@@ -11,7 +11,7 @@ import requests
 
 
 # Create your views here.
-from .forms import LoginForm, CreateUserForm, CreateListingForm, ListingImageForm
+from .forms import LoginForm, CreateUserForm, CreateListingForm, ListingImageForm, EditListingForm
 
 # Create your views here.
 def login_view(request):
@@ -117,7 +117,7 @@ def create_listing(request):
             return redirect('campusmart:home')
     else:
         parentForm = CreateListingForm()
-        factoryForm = ListingImageForm(instance=Listing())
+        factoryForm = ListingImageForm()
     return render(request, 'campusmart/create_listing.html', {'parentForm': parentForm, 'factoryForm' : factoryForm} )
 
 def paywall(request):
@@ -158,6 +158,73 @@ def search_results(request):
     context = {'filtered_listings':filtered_listings,}
 
     return render(request, 'campusmart/search_results.html', context)
+
+def my_listings(request):
+    if 'user' not in request.session: #redirect to login if not logged in
+        return redirect('campusmart:login')
+    
+    username = request.session['user']
+    user = User.objects.get(username=username)
+    
+    my_listings = Listing.objects.all().filter(seller=user).order_by('-date')
+
+    paginator = Paginator(my_listings, 20)
+    page = request.GET.get('page')
+    try:
+        filtered_listings = paginator.page(page)
+    except PageNotAnInteger:
+        filtered_listings = paginator.page(1)
+    except EmptyPage:
+        filtered_listings = paginator.page(paginator.num_pages)
+
+    context = {'filtered_listings':filtered_listings,}
+
+    return render(request, 'campusmart/my_listings.html', context)
+
+def edit_listing(request, pk):
+    if 'user' not in request.session: #redirect to login if not logged in
+        return redirect('campusmart:login')
+
+    username = request.session['user']
+    user = User.objects.get(username=username)
+    listing = get_object_or_404(Listing, id=pk)
+    if listing.seller != user:
+        messages.error(request, 'You do not own this item')
+        return redirect('campusmart:home')
+
+    if request.method == 'POST':
+        parentForm = EditListingForm(request.POST, request.FILES, instance=listing)
+        factoryForm = ListingImageForm(request.POST, request.FILES, instance=listing)
+
+        if parentForm.is_valid() and factoryForm.is_valid():
+
+                listing.save()
+                factoryForm.save()
+                messages.success(request, "Listing edited successfully!")
+                return redirect('campusmart:home')
+    
+    else:
+        parentForm = EditListingForm(instance=listing)
+        factoryForm = ListingImageForm(instance=listing)
+
+    return render(request, 'campusmart/edit_listing.html', {'parentForm': parentForm, 'factoryForm' : factoryForm} )
+
+
+def delete_listing(request, pk):
+
+    if 'user' not in request.session: #redirect to login if not logged in
+        return redirect('campusmart:login')
+
+    username = request.session['user']
+    user = User.objects.get(username=username)
+    listing = get_object_or_404(Listing, id=pk)
+    if listing.seller != user:
+        messages.error(request, 'You do not own this item')
+        return redirect('campusmart:home')
+
+    listing.delete()
+    messages.success(request, 'Item deleted successfully!')
+    return redirect('campusmart:home')
 
 def buy_coin_view(request):
     if 'user' not in request.session: #redirect to login if not logged in
