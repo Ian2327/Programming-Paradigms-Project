@@ -169,6 +169,23 @@ def search_results(request):
 
     return render(request, 'campusmart/search_results.html', context)
 
+def user_listings(request):
+    user = User.objects.get(username=request.session['user'])
+    all_listings = Listing.objects.all().filter(seller=user).order_by('-date')
+
+    paginator = Paginator(all_listings, 20)
+    page = request.GET.get('page')
+    try:
+        listings = paginator.page(page)
+    except PageNotAnInteger:
+        listings = paginator.page(1)
+    except EmptyPage:
+        listings = paginator.page(paginator.num_pages)
+
+    context = {'listings':listings,'can_delete':True}
+
+    return render(request, 'campusmart/view_listings.html', context)
+
 def buy_coin_view(request):
     if 'user' not in request.session: #redirect to login if not logged in
         return redirect('campusmart:login')
@@ -203,6 +220,10 @@ def buy_coin_view(request):
     }
     
     return render(request, "campusmart/buy_coins.html",context=context)
+
+def delete_listing(listing):
+    listing.delete()
+
 
 def view_balance_for_user(access_token, email):
    # Use the access token to make an authenticated request
