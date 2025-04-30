@@ -235,6 +235,7 @@ def delete_listing(request, pk):
     listing.delete()
     messages.success(request, 'Item deleted successfully!')
     return redirect('campusmart:home')
+
 def user_listings(request):
     user = User.objects.get(username=request.session['user'])
     all_listings = Listing.objects.all().filter(seller=user).order_by('-date')
