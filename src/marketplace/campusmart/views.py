@@ -264,7 +264,10 @@ def buy_coin_view(request):
     print(user)
     today = timezone.now()
     currAmount = view_balance_for_user("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU0NTA1NTg0LCJpYXQiOjE3NDU4NjU1ODQsImp0aSI6IjA5MmZhZDQ5ZGZhOTQyZTg5YTU4YjZhMzBlOWRmNjM5IiwidXNlcl9pZCI6Njh9.r9stWOk9hhqYJCDgn2QRddonoxhyZrKtdGxOJZ9vIJI", user.email)
-    
+    if currAmount == None:
+        amt = 0;
+    else:
+        amt = currAmount["amount"]
 
     
     
@@ -280,7 +283,7 @@ def buy_coin_view(request):
     else:
         form = BuyListingForm()
     context = {
-        'amt':currAmount["amount"],
+        'amt':amt,
         'email':user.email,
         'form':form,
         'error_message':error_message
