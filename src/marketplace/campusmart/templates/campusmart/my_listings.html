@@ -6,7 +6,7 @@
 <div class="row" style="margin-left:0.5%;">
     {% for listing in filtered_listings %}
     <div class="col-md-3 mb-3">
-        <a href="{% url 'campusmart:listing_detail' listing.id %}" class="card h-100 clickable-card">
+        <a href="{% url 'campusmart:listing_detail' listing.id %}" class="card h-100 clickable-card" style="text-decoration: none;">
             <!-- Primary Photo -->
             <div class="card-img-top-container" style="height: 200px; overflow: hidden;">
                 {% if listing.primary_photo %}
