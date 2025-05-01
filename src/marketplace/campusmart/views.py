@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .models import User, Listing
+from .models import User, Listing, Message
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import BuyListingForm
@@ -335,3 +335,43 @@ class listing_detail(DetailView):
             if user == self.object.seller:
                 context['can_delete'] = True
         return context
+
+def messages_view(request):
+    if 'user' not in request.session: #redirect to login if not logged in
+        return redirect('campusmart:login')
+    username = request.session['user']
+    user = User.objects.get(username=username)
+    messages = user.receiver.all() | user.sender.all()
+    messages = messages.order_by('time')
+    recent_messages = {}
+    for message in messages:
+        other_user = message.sender if message.sender != user else message.receiver
+        if other_user not in recent_messages or message.time > recent_messages[other_user].time:
+            recent_messages[other_user] = message
+    context = {'recent_messages': sorted(recent_messages.items(), key=lambda x: x[1].time, reverse=True), 'current_user': user}
+    return render(request, 'campusmart/messages.html', context)
+
+def chat_view(request, other_user):
+    if 'user' not in request.session: #redirect to login if not logged in
+        return redirect('campusmart:login')
+    username = request.session['user']
+    user = User.objects.get(username=username)
+    other_user = User.objects.get(username=other_user)
+    messages = user.receiver.filter(sender=other_user) | user.sender.filter(receiver=other_user)
+    messages = messages.order_by('time')
+    
+    for message in messages:
+        if message.receiver == user and not message.read:
+            message.mark_as_read()
+            
+    if request.method == 'POST':
+        message = request.POST.get('message')
+        new_message = Message(
+            sender=user,
+            receiver=other_user,
+            message=message
+        )
+        new_message.save()
+        return redirect('campusmart:chat', other_user=other_user.username)
+    else:
+        return render(request, 'campusmart/chat.html', {'chat': messages, 'other_user': other_user, 'user': user})

@@ -1,0 +1,26 @@
+{% extends "./base_page.html" %}
+{% block content %}
+    <br>
+    <h1 class="mb-4 text-center" style="padding-top:20px">Messages</h1>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                {% for other_user, chat in recent_messages %}
+                    <a href="{% url 'campusmart:chat' other_user.username %}" style="text-decoration: none">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <p><strong>{{ other_user.username }}</strong>:</p>
+                                <p>{{ chat.message|truncatechars:100 }}</p>
+                                <p class="text-muted text-end">{{ chat.time}}</p>
+                            </div>
+                        </div>
+                    </a>
+                {% empty %}
+                    <p class="text-center">No chats to display.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block currPage %}"messageTab"{% endblock %}

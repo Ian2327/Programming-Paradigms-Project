@@ -17,5 +17,7 @@ urlpatterns = [
     path('view-listings/', views.listings, name='listings'),
     path('search-results/', views.search_results, name='search_results'),
     path('checkout/', views.user_pay, name='checkout'),
-    path('listing-detail/<int:pk>/', views.listing_detail.as_view(), name='listing_detail')
+    path('listing-detail/<int:pk>/', views.listing_detail.as_view(), name='listing_detail'),
+    path('messages/', views.messages_view, name='messages'), 
+    path('chat/<str:other_user>/', views.chat_view, name='chat')
 ]
