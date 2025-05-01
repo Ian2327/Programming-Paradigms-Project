@@ -9,7 +9,12 @@
                     <a href="{% url 'campusmart:chat' other_user.username %}" style="text-decoration: none">
                         <div class="card mb-3">
                             <div class="card-body">
-                                <p><strong>{{ other_user.username }}</strong>:</p>
+                                <div style="justify-content: space-between; display: flex">
+                                    <span><strong>{{ other_user.username }}</strong>:</span>
+                                    {% if chat.sender == other_user and chat.read == False %}
+                                        <span class="badge bg-primary">New</span>
+                                    {% endif %}
+                                </div>
                                 <p>{{ chat.message|truncatechars:100 }}</p>
                                 <p class="text-muted text-end">{{ chat.time}}</p>
                             </div>
