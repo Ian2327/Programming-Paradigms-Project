@@ -36,3 +36,17 @@ class Listing(models.Model):
 class Image(models.Model):
     image = models.ImageField(upload_to='')
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+
+class Message(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiver')
+    message = models.CharField(max_length=4000)
+    time = models.DateTimeField(default=timezone.now)
+    read = models.BooleanField(default=False)
+    
+    def mark_as_read(self):
+        self.read = True
+        self.save()
+
+    def __str__(self):
+        return f"{self.sender.username}: {self.message}"
