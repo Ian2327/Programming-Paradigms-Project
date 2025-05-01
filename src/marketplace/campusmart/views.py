@@ -278,7 +278,7 @@ def buy_coin_view(request):
             if type(user_pay("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU0NTA1NTg0LCJpYXQiOjE3NDU4NjU1ODQsImp0aSI6IjA5MmZhZDQ5ZGZhOTQyZTg5YTU4YjZhMzBlOWRmNjM5IiwidXNlcl9pZCI6Njh9.r9stWOk9hhqYJCDgn2QRddonoxhyZrKtdGxOJZ9vIJI", user.email, form.cleaned_data['amount'])) != dict:
                 error_message="Insufficent Funds"
             else:
-                user.extra_listings_remaining+=1
+                user.extra_listings_remaining+=form.cleaned_data['amount']
                 user.save()
                 return HttpResponseRedirect("/buy_coin" )
     else:
