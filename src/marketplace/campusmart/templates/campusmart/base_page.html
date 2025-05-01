@@ -59,6 +59,7 @@
                         <a id="aboutTab" class="nav-link" href="#">About</a>
                     </li>
                 </ul>
+                {% if request.session.user %}<div><p class="h5" style="padding-right:1vh;color:white">Listings Remaining: {{listings_remaining}}</p></div>{%endif%}
                 <div class="d-flex" style="margin-right:3%;">
                     {% if request.session.user %}
                         <div class="dropdown">
