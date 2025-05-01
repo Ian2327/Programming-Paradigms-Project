@@ -16,8 +16,8 @@ Project contributors (sorted alphabetically)
     *Made it have a link to the create account page
   * Feature 1.3: Added logout feature, removing logged in user from session
   * Home page: Created template for home page with links to login, listing products, and searching for products
-  * Feature 3.1: implemented a grid layout of all the listings
-  * Feature 3.2: enabled the searched bar on the home page using Django query filter and icontains in the title
+  * Feature 3.1: implemented a grid layout of all the listings limited to 20 listings per page using Paginator. Added left/right arrows as well as skip to last/first page buttons
+  * Feature 3.2: enabled the searched bar on the home page using Django query filter and icontains in the title or description. Search bar is also added to the browsinga dn search results pages.
 
 * **[Jack Blake](https://github.com/halftimejack)**
 
