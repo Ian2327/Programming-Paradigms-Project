@@ -92,11 +92,12 @@ def create_listing(request):
     today = timezone.now()
 
     listings_today = Listing.objects.filter(seller=user, date=today)
-   
+    listings_remaining = 3 - listings_today.count() + user.extra_listings_remaining
+    print(listings_remaining)
     
 
 
-    if request.method == 'POST':
+    if request.method == 'POST':    
         parentForm = CreateListingForm(request.POST, request.FILES)
         if len(listings_today) >= 3: # redirect to pay prompt if over the limit
             if user.extra_listings_remaining <= 0:
@@ -129,7 +130,7 @@ def create_listing(request):
     else:
         parentForm = CreateListingForm()
         factoryForm = ListingImageForm()
-    return render(request, 'campusmart/create_listing.html', {'parentForm': parentForm, 'factoryForm' : factoryForm} )
+    return render(request, 'campusmart/create_listing.html', {'parentForm': parentForm, 'factoryForm' : factoryForm, 'listingsRemain':listings_remaining} )
 
 def paywall(request):
     return render(request, 'campusmart/paywall.html')

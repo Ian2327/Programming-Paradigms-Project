@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,13 +19,28 @@
         }
     </style>
 </head>
-<body>
+<body> -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .content-container {
+            max-width: 400px;
+            margin: 22.35vh auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+    {% extends "./base_page.html" %}
+    {% block content %}
     <div class="content-container">
     <div class="text-center">
         <div class="alert alert-danger" role="alert">
             This action requires purchase with Krato$Coin. Come back tomorrow for more free listings!
         </div>
-        <button type="button" onclick="window.location.href='{% url 'campusmart:home' %}';">Go to Home</button>
+        <button type="button" onclick="window.location.href='{% url 'campusmart:buy_coins' %}';">Buy More Listings</button>
     </div>
     </div>
-</body>
+{% endblock %}
