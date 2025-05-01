@@ -359,6 +359,7 @@ def chat_view(request, other_user):
     other_user = User.objects.get(username=other_user)
     messages = user.receiver.filter(sender=other_user) | user.sender.filter(receiver=other_user)
     messages = messages.order_by('time')
+    item = request.GET.get('item')
     
     for message in messages:
         if message.receiver == user and not message.read:
@@ -374,4 +375,4 @@ def chat_view(request, other_user):
         new_message.save()
         return redirect('campusmart:chat', other_user=other_user.username)
     else:
-        return render(request, 'campusmart/chat.html', {'chat': messages, 'other_user': other_user, 'user': user})
+        return render(request, 'campusmart/chat.html', {'chat': messages, 'other_user': other_user, 'user': user, 'item': item})

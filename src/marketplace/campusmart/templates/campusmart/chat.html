@@ -20,8 +20,8 @@
         <form method="post" class="message-form">
             {% csrf_token %}
             {% if item %}
-                <textarea name="message" class="message-input" placeholder="Type your message here..." required>Hello. I am interested in {{ item }}.</textarea>
-            {% else %}
+                <textarea name="message" class="message-input" placeholder="Type your message here..." required>Hello! I am interested in the {{ item }} you are selling.</textarea>
+			{% else %}
                 <textarea name="message" class="message-input" placeholder="Type your message here..." required></textarea>
             {% endif %}
             <button type="submit" class="send-button">Send</button>
