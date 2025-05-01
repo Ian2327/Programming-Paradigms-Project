@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import BuyListingForm
 import requests
+from django.views.generic import DetailView
 
 
 # Create your views here.
@@ -319,3 +320,7 @@ def user_pay(access_token, email, amount):
        return api_response.json()
    else:
        print("Failed to access the API endpoint to pay:", api_response.status_code)
+
+class listing_detail(DetailView):
+    model = Listing
+    template_name = 'listing_detail.html'

@@ -7,7 +7,7 @@
 <div class="row" style="margin-left:0.5%;">
     {% for listing in listings %}
     <div class="col-md-3 mb-3">
-        <div class="card h-100">
+        <a href="{% url 'campusmart:listing_detail' listing.id %}" class="card h-100 clickable-card">
             <!-- Primary Photo -->
             <div class="card-img-top-container" style="height: 200px; overflow: hidden;">
                 {% if listing.primary_photo %}
@@ -64,7 +64,7 @@
                     <small class="text-muted">Seller: {{ listing.seller.username }}</small>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
     {% empty %}
     <div class="col-12">
