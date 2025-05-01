@@ -2,6 +2,15 @@
 
 {% block content %}
 <br>
+<form class="row g-2 justify-content-center" action="{% url 'campusmart:search_results' %}" method="GET">
+    <div class="col-md-8">
+        <div class="input-group mb-3">
+            <input type="text" name="query" class="form-control form-control-lg" placeholder="Search for items..." style="border-radius: 20px 0 0 20px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+            <button class="btn btn-warning" type="submit" style="border-radius: 0 20px 20px 0; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">Search</button>
+        </div>
+    </div>
+</form>
+
 <h1 class="mb-4 text-center" style="padding-top:20px">All Listings</h1>
 
 <div class="row" style="margin-left:0.5%;">
