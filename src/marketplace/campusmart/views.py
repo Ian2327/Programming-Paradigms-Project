@@ -331,8 +331,6 @@ class listing_detail(DetailView):
     template_name = 'listing_detail.html'
 
     def get_context_data(self, **kwargs):
-        user = User.objects.get(username=self.request.session['user'])
-
         context = super().get_context_data(**kwargs)
         if 'user' in self.request.session:
             user = User.objects.get(username=self.request.session['user'])
