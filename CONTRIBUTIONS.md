@@ -26,7 +26,16 @@ Project contributors (sorted alphabetically)
     *Implemented checking for signin and daily limit to access creation form
     *Set up MEDIA_ROOT and other image collection prerequisites
     *Created dropdown and decimal form fields
-  * Phase 1 Report: Documented all implemented features and technologies used 
+    *Added JavaScript that adds additional image fields
+  * Feature 2.2:
+    *Created edit form that starts with previous inputs populating all fields
+  * Feature 2.3:
+    *Implemented delete feature
+    *Add safety check to ensure users don't edit or delete listings via URL that don't belong to them
+  * General:
+    *Added useful URLs to dummy buttons in home page and footer
+    *Created detail view to see a listing's complete description and additional images
+  * Phase 1 Report: Documented all implemented features and technologies used
   
 * **[Wesley Omerso](https://github.com/womerso)**
 
