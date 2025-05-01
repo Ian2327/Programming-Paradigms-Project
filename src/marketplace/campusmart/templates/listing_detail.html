@@ -41,9 +41,11 @@
 
                     <p class="card-text">{{ listing.description }}</p>
 
-                    <div class="mt-3">
-                        <a href="{% url 'campusmart:chat' listing.seller.username %}?item={{ listing.title }}" class="btn btn-primary">Chat with Seller</a>
-                    </div>
+                    {% if not can_delete %}
+                    	<div class="mt-3">
+                        	<a href="{% url 'campusmart:chat' listing.seller.username %}?item={{ listing.title }}" class="btn btn-primary">Chat with Seller</a>
+                    	</div>
+					{% endif %}
 
                     {% if can_delete %}
                     <div class="mt-3">
