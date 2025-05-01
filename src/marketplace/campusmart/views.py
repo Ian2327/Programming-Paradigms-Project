@@ -327,6 +327,10 @@ def user_pay(access_token, email, amount):
        print("Failed to access the API endpoint to pay:", api_response.status_code)
 
 class listing_detail(DetailView):
+    def dispatch(self, request, *args, **kwargs):
+        if 'user' not in request.session:  # Redirect to login if not logged in
+            return redirect('campusmart:login')
+        return super().dispatch(request, *args, **kwargs)
     model = Listing
     template_name = 'listing_detail.html'
 
