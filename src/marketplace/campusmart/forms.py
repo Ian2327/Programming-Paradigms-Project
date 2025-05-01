@@ -52,4 +52,4 @@ class EditListingForm(forms.ModelForm):
         }
         
 class BuyListingForm(forms.Form):
-    amount = forms.IntegerField()
+    amount = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control row col','style':'width:50%;margin:auto'}))
