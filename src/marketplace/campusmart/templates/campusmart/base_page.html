@@ -67,7 +67,7 @@
                                 <i class="bi bi-person-fill"></i> {{ request.session.user }}
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">My Profile</a></li>
+                                <li><a class="dropdown-item" href="{% url 'campusmart:buy_coins' %}">Buy Listings</a></li>
                                 <li><a class="dropdown-item" href="{% url 'campusmart:my_listings' %}">My Listings</a></li>
                                 <li><a class="dropdown-item" href="#">Messages</a></li>
                                 <li><hr class="dropdown-divider"></li>
