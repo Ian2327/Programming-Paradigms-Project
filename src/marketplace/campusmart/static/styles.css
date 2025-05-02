@@ -1,0 +1,24 @@
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://wallpapers.com/images/high/university-of-notre-dame-golden-dome-with-trees-8t9t0at57aoplim2.webp');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 100px 0;
+    margin-bottom: 30px;
+}
+.category-card {
+    transition: transform 0.3s;
+    margin-bottom: 20px;
+}
+.category-card:hover {
+    transform: translateY(-5px);
+}
+.product-card {
+    transition: all 0.3s;
+}
+.product-card:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.navbar-brand {
+    font-weight: 700;
+}
