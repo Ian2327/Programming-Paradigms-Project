@@ -59,6 +59,9 @@ Project contributors (sorted alphabetically)
     * Added useful URLs to dummy buttons in home page and footer
     * Created detail view to see a listing's complete description and additional images
   * Phase 1 Report: Documented all implemented features and technologies used
+  * Phase 2 Report:
+    * Provided screenshots and explanations for Features 2.2 and 2.3
+    * Explained image handling as an intellectually challenging feature to implement
   
 * **[Wesley Omerso](https://github.com/womerso)**
 
